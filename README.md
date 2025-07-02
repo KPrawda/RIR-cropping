@@ -1,0 +1,4 @@
+This is a repository for the RIR cropping method using covariance and unimodal regression presented in the paper _Room impulse response cropping with unimodal regression of the covariance_ submitted to JASA Express Letters.
+
+**Abstract:** <br>
+The presence of unavoidable background noise limits the signal-to-noise ratio in measured room impulse responses (RIRs). A common solution is to crop the RIR to the time interval where the signal dominates the background noise, but finding the correct onset and truncation points is challenging. It usually requires estimating the sound decay rate and noise floor, which is burdened with uncertainty. In this study, we propose a robust RIR cropping method based on the covariance between two RIRs and its inherent monotonicity. Evaluation on measured RIRs shows the proposed method is highly robust in different scenarios and outperforms state-of-the-art algorithms.
