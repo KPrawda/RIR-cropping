@@ -3,6 +3,8 @@
 Created on Thu Jun  5 13:57:07 2025
 
 @author: mrc582
+
+File with the fubnctions common to multiple other scripts
 """
 # %% imnport the packages
 import numpy as np
@@ -12,7 +14,13 @@ from scipy.optimize import isotonic_regression
 from scipy.signal import butter, filtfilt
 # %% function for time-aligning the RIRs
 def time_align_rirs(upsampled_rir, referenceID):
-    # time-align upsampled sweeps
+    """Time-align upsampled RIRs with the help of cross-correlation"""
+    """ input:
+            upsampled_rir is the array with upsampled RIRs
+            referenceID is the ID number of RIR which is the reference for aligning - all the other RIRs will be shifted to match this one
+        output:
+            upsampled_rir is the array of upsampled aligned RIRs
+    """
     num_repeat = upsampled_rir.shape[-1]
 
    
@@ -36,8 +44,17 @@ def time_align_rirs(upsampled_rir, referenceID):
 
     return upsampled_rir
 
-# %% 2. Apply an Octave Filter (e.g., filter between 440 Hz and 880 Hz)
+# %% 2. Apply an Octave Filter 
 def octave_filter(signal, sr, low_freq, high_freq):
+    """Apply an octave filter to a signal"""
+    """ input:
+            signal is the signal vector
+            sr is the sampling rate
+            low_freq is the lower passband frequency 
+            high_freq is the higher passband frequency
+        output:
+            filtered_signal is the octave-filtered signal
+    """
     nyquist = 0.5 * sr
     low = low_freq / nyquist
     high = high_freq / nyquist
@@ -54,7 +71,7 @@ def unimodal_regression(sig, time):
         output:
             sig_unimodal signal smoothed using unimodal regression
             ind index of the max values in signal -> the increasing regression turns to decreasing
-       """
+    """
     
 
     # we need to separate the increasing and descreasing parts of the signal
@@ -83,6 +100,15 @@ def unimodal_regression(sig, time):
 # %% determine onset and offset points
 def onset_offset_points(r_cov, noise_v, fs):
     """Get the values of the onset and offset points w.r.t. noise covariance threshold."""
+    """ input:
+            r_cov is the covariance vector
+            noise_v is the noise variance
+            fs is the sampling rate
+            
+        output:
+            onset_point, trunc_point are the onset and truncation poiunts (in seconds), respectively
+            if times in samples are wanted, set fs = 1
+    """
    
     # get the difference between the covariance and noise variance             
     diff = r_cov - noise_v
